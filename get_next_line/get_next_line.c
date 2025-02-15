@@ -152,16 +152,13 @@ char	*store_buffer(int fd, char *stored)
 			return (stored);
 		}
 		if (!stored)
-			temp = buffer;
-		else
-		{
-			temp = ft_strjoin(stored, buffer);
-			free(stored);
-			free(buffer);
-		}
-		stored = temp;
-		if (!stored)
+			return (buffer);
+		temp = ft_strjoin(stored, buffer);
+		free(stored);
+		free(buffer);
+		if (!temp)
 			return (NULL);
+		stored = temp;
 	}
 	return (stored);
 }
