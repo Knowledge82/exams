@@ -121,7 +121,7 @@ char	*read_buffer(int fd)
 	char	*buffer;
 	ssize_t bytes_read;
 
-	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
