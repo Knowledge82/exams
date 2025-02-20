@@ -17,9 +17,9 @@ int	ft_strlen(const char *str)
 /*
 ** ft_strchr - находит первое вхождение символа `c` в строке `s`.
 **
-** @param s: указатель на строку, в которой ищем.
-** @param c: символ, который ищем (преобразуется в `char`).
-** @return: указатель на найденный символ в строке или NULL, если его нет.
+** str: указатель на строку, в которой ищем.
+** c: символ, который ищем (преобразуется в `char`).
+** return: указатель на найденный символ в строке или NULL, если его нет.
 */
 char	*ft_strchr(const char *str, int c)
 {
@@ -40,9 +40,9 @@ char	*ft_strchr(const char *str, int c)
 /*
 ** ft_strjoin - объединяет две строки в одну новую строку.
 **
-** @param s1: первая строка.
-** @param s2: вторая строка.
-** @return: указатель на новую строку или NULL, если выделение памяти не удалось.
+** s1: первая строка.
+** s2: вторая строка.
+** return: указатель на новую строку или NULL, если выделение памяти не удалось.
 */
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -81,7 +81,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 ** str: исходная строка.
 ** start: начальная позиция в `str`, откуда копировать.
 ** len: количество символов для копирования.
-** @return: указатель на новую строку или NULL, если выделение памяти не удалось.
+** return: указатель на новую строку или NULL, если выделение памяти не удалось.
 */
 char	*ft_substr(char const *str, unsigned int start, size_t len)
 {
@@ -115,7 +115,7 @@ char	*ft_substr(char const *str, unsigned int start, size_t len)
 	 return (substr);
 }
 
-
+//создаём buffer и читаем в него BUFFER_SIZE символов.
 char	*read_buffer(int fd)
 {
 	char	*buffer;
@@ -134,17 +134,18 @@ char	*read_buffer(int fd)
 	return (buffer);
 }
 
+// дописываем в статический stored данные их buffer. 
 char	*store_buffer(int fd, char *stored)
 {
 	char	*buffer;
 	char	*temp;
 
-	while (!stored || !ft_strchr(stored, '\n'))
+	while (stored == NULL || !ft_strchr(stored, '\n'))
 	{
 		buffer = read_buffer(fd);
 		if (!buffer)
 		{
-			if (!stored || !*stored)
+			if (stored == NULL || stored[0] == NULL)
 			{
 				free(stored);
 				return (NULL);
