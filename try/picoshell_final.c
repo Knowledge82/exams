@@ -1,16 +1,16 @@
 #include <unistd.h>
-#include <sys/wait.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 int	picoshell(char ***cmds)
 {
-	int	in_fd = -1;
-	int	i = 0;
 	int	fd[2];
+	int	in_fd = -1;
+	int i = 0;
 	pid_t	pid;
-
+  
 	if (!cmds || !cmds[0])
-		return 1;
+		return (1);
 
 	while (cmds[i])
 	{
@@ -18,23 +18,21 @@ int	picoshell(char ***cmds)
 		{
 			if (in_fd != -1)
 				close(in_fd);
-			return 1;
+			return (1);
 		}
-
 		pid = fork();
-		
-		if (pid < 0) //error
+
+		if (pid < 0)
 		{
 			close(fd[0]);
 			close(fd[1]);
 			if (in_fd != -1)
 				close(in_fd);
-			return 1;
+			return (1);
 		}
-		
-		if (pid == 0) //child
+		if (pid == 0)
 		{
-			close(fd[0]);//child не читает из трубы, а только пишет в неё
+			close(fd[0]);
 			if (in_fd != -1)
 			{
 				if (dup2(in_fd, STDIN_FILENO) == -1)
@@ -48,11 +46,11 @@ int	picoshell(char ***cmds)
 			}
 			close(fd[1]);
 			execvp(cmds[i][0], cmds[i]);
-			exit(127);// если выйти с 1, то тесты расценивают это как ошибку(c)Lorena. Попробовать 127 мб? потому что 0 - тоже не айс.
+			exit(127);
 		}
-		else //parent
+		else
 		{
-			close(fd[1]);//parent не пишет в трубу, а только читает
+			close(fd[1]);
 			if (in_fd != -1)
 				close(in_fd);
 			in_fd = fd[0];
